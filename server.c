@@ -29,49 +29,49 @@ int main(int arge,char *argv[])
 		  printf("创建socket失败!\n");					    
 		  return 0;					      
           }						        
-	  //绑定套接字
-								  bzero(&host_addr, sizeof host_addr);
-								    host_addr.sin_family = AF_INET;//TCP/IP协议
-								      host_addr.sin_port = htons(SERV_PORT);//设定端口号
-								        host_addr.sin_addr.s_addr = INADDR_ANY;//本地IP地址
-									  ret = bind(sockfd, (struct sockaddr *)&host_addr, sizeof host_addr); //绑定套接字
-									    if(ret == -1) //判断bind函数的返回值
-										      {
-											          printf("调用bind失败!\n");
-												      return 1;
-												        }
-													  //监听网络端口
-													    ret = listen(sockfd, BACKLOG);
-													      if(ret==-1)//判断listen函数的返回值
-														        {
-																    printf("调用listen函数失败.\n");
-																        return 1;
-																	  }
-																	    while(1)
-																		      {
-																			          clientfd = accept(sockfd,(struct sockaddr*)&client_addr, &length);//接收连接请求
-																				      if(clientfd = -1)
-																					          {
-																							        printf("调用accept接受连接失败.\n");
-																								      return 1;
-																								          }
-																									      pid = fork();//创建子进程
-																									          if(pid == 0)//在子进程中处理
-																											      {
-																												            while(1)
-																														          {
-																																          bzero(buf, sizeof buf);//首先清空缓冲区
-																																	          tt = time(NULL);
-																																		          ttm = localtime(&tt);//获取当前时间参数
-																																			          strcpy(buf, asctime(ttm));//将时间信息 copy 进缓冲区
-																																				          send(clientfd, buf, strlen(buf), 0);//发送数据
-																																					          sleep(2);
-																																						        }
-																																							      close(clientfd);//调用close函数关闭连接
-																																							          else if(pid> 0)
-																																									      {
-																																										            close(clientfd);//父进程关闭套接字，准备下一个客户端连接
-																																											        }
-																																												  }
-																																												    return 0;
-																		      }
+	  //绑定套接字								  
+	  bzero(&host_addr, sizeof host_addr);								    
+	  host_addr.sin_family = AF_INET;//TCP/IP协议								      
+	  host_addr.sin_port = htons(SERV_PORT);//设定端口号								        
+	  host_addr.sin_addr.s_addr = INADDR_ANY;//本地IP地								  
+	  ret = bind(sockfd, (struct sockaddr *)&host_addr, sizeof host_addr); //绑定套接字			 
+	  if(ret == -1) //判断bind函数的返回值									      
+	  {										          
+		  printf("调用bind失败!\n");										      
+		  return 1;
+	  }
+	  //监听网络端口
+	  ret = listen(sockfd, BACKLOG);
+	  if(ret==-1)//判断listen函数的返回值
+	  {
+		  printf("调用listen函数失败.\n")													        return 1；
+	  }
+	  while(1)
+	  {
+		  clientfd = accept(sockfd,(struct sockaddr*)&client_addr, &length);//接收连接请求
+		  if(clientfd = -1)
+		  {
+			  printf("调用accept接受连接失败.\n")	
+			  return 1;
+		  }
+		  pid = fork();//创建子进程
+		  if(pid == 0)//在子进程中处理      
+		  {	            
+			  while(1)	          
+			  {
+				  bzero(buf, sizeof buf);//首先清空缓冲区		        
+				  tt = time(NULL);	        
+				  ttm = localtime(&tt);//获取当前时间参数
+				  strcpy(buf, asctime(ttm));//将时间信息 copy 进缓冲区
+				  send(clientfd, buf, strlen(buf), 0);//发送数据
+				  sleep(2);
+			  }
+			  close(clientfd)；//调用close函数关闭连接
+		  }
+		  else if(pid> 0)
+		  {				  
+			  close(clientfd);//父进程关闭套接字，准备下一个客户端连接
+		  }
+	  }
+	  return 0;
+}
