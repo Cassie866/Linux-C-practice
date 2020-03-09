@@ -4,28 +4,29 @@ using namespace std;
 
 void ShellSort(vector<int>&v)
 {
-	int g=v.size();
-	while(1)
+	int gap = v.size();
+	while (1)
 	{
-		g=g/3+1;
-		for(int i=g;i<v.size();++i)
+		gap = (gap / 3) + 1;
+		for (int i = gap; i < v.size(); i++)
 		{
-			int k=v[i];
+			int k = v[i];
 			int j;
-			for(int j=i-g;j>=0;j=j-g)
+			for (j = i - gap; j >= 0; j = j - gap) 
 			{
-				if(k<v[j])
-					v[j+g]=v[j];
+				if (k < v[j]) 
+					v[j + gap] = v[j];
 				else
 					break;
 			}
-			v[j+g]=k;
+			v[j + gap] = k;
 		}
-		if(g==1)
+		if (gap == 1) 
+		{
 			break;
+		}
 	}
 }
-
 
 int main()
 {
