@@ -21,17 +21,7 @@ void InsertSort(vector<int>&v)
 
 int main()
 {
-	vector<int> v;
-	v.push_back(3);
-	v.push_back(5);
-	v.push_back(7);
-	v.push_back(2);
-	v.push_back(4);
-	v.push_back(8);
-	v.push_back(1);
-	v.push_back(0);
-	v.push_back(9);
-	v.push_back(6);
+	vector<int> v={3,2,5,4,8,6,7,9,0,1};
 	InsertSort(v);
 	for(auto &e:v)
 	{
